@@ -15,7 +15,7 @@ class App extends Component {
          <Link to='/'> Home</Link>
         <Link to='/otherpage' style={{marginLeft:'10px'}}> About</Link>
         </div>
-        <h1>Fibonacci App</h1>
+        <h1>Fibonacci Calculator</h1>
        <Route exact path='/' component={Fib} />
        <Route exact path='/otherpage' component={OtherPage} />
     </div>
