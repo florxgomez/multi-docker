@@ -1,0 +1,22 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t greenflor/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true greenflor/react-test npm test
+
+after_success:
+  - docker build -t greenflor/multi-client ./client
+  - docker build -t greenflor/multi-nginx ./nginx
+  - docker build -t greenflor/multi-server ./server
+  - docker build -t greenflor/multi-worker ./worker
+# Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+# Take those images and push them to docker hub
+  - docker push greenflor/multi-client
+  - docker push greenflor/multi-nginx
+  - docker push greenflor/multi-server
+  - docker push greenflor/multi-worker
